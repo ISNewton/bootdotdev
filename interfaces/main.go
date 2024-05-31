@@ -1,18 +1,41 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
-type authenticationInfo struct {
-	username string
-	password string
-}
-
-func (ai authenticationInfo) getBasicAuth() string {
-	return "Authorization: Basic " + ai.username + ":" + ai.password
-}
 func main() {
 
-	user := authenticationInfo{username: "ash", password: "my1212"}
+	myMessage := birthdayMessage{birthdayTime: time.Now(), recipientName: "Ashraf"}
 
-	fmt.Println(user.getBasicAuth())
+	fmt.Println(sendMessage(myMessage))
+}
+func sendMessage(msg message) (string, int) {
+	messageContent := msg.getMessage()
+	return messageContent, len(messageContent)
+}
+
+type message interface {
+	getMessage() string
+}
+
+// don't edit below this line
+
+type birthdayMessage struct {
+	birthdayTime  time.Time
+	recipientName string
+}
+
+func (bm birthdayMessage) getMessage() string {
+	return fmt.Sprintf("Hi %s, it is your birthday on %s", bm.recipientName, bm.birthdayTime.Format(time.RFC3339))
+}
+
+type sendingReport struct {
+	reportName    string
+	numberOfSends int
+}
+
+func (sr sendingReport) getMessage() string {
+	return fmt.Sprintf(`Your "%s" report is ready. You've sent %v messages.`, sr.reportName, sr.numberOfSends)
 }
