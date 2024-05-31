@@ -4,41 +4,35 @@ import "fmt"
 
 func main() {
 
-	myContractorEmployee := contractor{name: "Ash", hoursPerYear: 10, hourlyPay: 5}
-	fmt.Println(myContractorEmployee.getSalary())
+	myEmail := email{body: "hello world", isSubscribed: true}
 
-	myFullTimeEmployee := fullTime{name: "Ash", salary: 20}
-	fmt.Println(myFullTimeEmployee.getSalary())
+	fmt.Println(myEmail.cost())
+	fmt.Println(myEmail.format())
 }
 
-type employee interface {
-	getName() string
-	getSalary() int
+func (e email) cost() int {
+	if e.isSubscribed {
+		return 2 * len(e.body)
+	}
+	return 5 * len(e.body)
 }
 
-type contractor struct {
-	name         string
-	hourlyPay    int
-	hoursPerYear int
+func (e email) format() string {
+	if e.isSubscribed {
+		return fmt.Sprintf("'%s' | %s", e.body, "Subscribed")
+	}
+	return fmt.Sprintf("'%s' | %s", e.body, "Not Subscribed")
 }
 
-func (c contractor) getName() string {
-	return c.name
+type expense interface {
+	cost() int
 }
 
-func (c contractor) getSalary() int {
-	return c.hourlyPay * c.hoursPerYear
+type formatter interface {
+	format() string
 }
 
-type fullTime struct {
-	name   string
-	salary int
-}
-
-func (ft fullTime) getSalary() int {
-	return ft.salary
-}
-
-func (ft fullTime) getName() string {
-	return ft.name
+type email struct {
+	isSubscribed bool
+	body         string
 }
