@@ -14,8 +14,10 @@ func getMessageCosts(messages []string) []float64 {
 }
 
 func main() {
-	messages := []string{"Lorem skdjfksjkfjsdfjkjkskdjfksdf ksjdfksjfksjdfk skdfjksdjfksdjfkjsd fkjskdfjsdkfjskdfjsdk f hekrksjfksjfksjfksjfskjfkajdfk",
-		"world"}
 
+	var messages []string
+	for i := 0; i < 1000000; i++ {
+		messages = append(messages, "hello")
+	}
 	fmt.Println(getMessageCosts(messages))
 }
